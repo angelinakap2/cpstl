@@ -89,17 +89,92 @@ class LinkedList {
    * Remove the first instance find inside list,
    * in according with the insert order.
    */
-  void remove(T const &value) {}
+  void remove(T const &value) {
+        Node* temp = head;
+        Node* previous= nullptr;
+
+        if (head.value == value)
+        {
+            head = value -> next;
+            delete temp;
+            return;
+        }
+        while (temp.value != value)
+        {
+            previous = temp;
+            temp = temp -> next
+        }
+        previous -> next = temp -> next;
+        delete temp;
+  }
 
   /**
    * Remove the element at the index,
    */
-  void remove_at(std::size_t index) {}
+  void remove_at(std::size_t index) {
+  if (head == nullptr)
+            return;
+
+        Node* temp = head;
+
+        if (index == 0)
+        {
+            head = temp -> next;
+            delete temp;
+            return;
+        }
+        for (int i = 0; temp != nullptr && i < position - 1; i++)
+            temp = temp -> next;
+
+        if (temp == nullptr || temp -> next == nullptr)
+            return;
+
+        Node* next = temp -> next -> next;
+        delete temp -> next;
+        temp -> next = next;
+  }
 
   /**
    * Swap two element in the list
    */
-  void swap(std::size_t x, std::size_t y) {}
+  void swap(std::size_t x, std::size_t y)
+  {
+        if (x == y)
+                  return;
+
+              Node* prevX = nullptr;
+              Node* tempX = head;
+              while (tempX && tempX -> data != x)
+              {
+                  prevX = tempX;
+                  tempX = tempX -> next;
+              }
+
+              Node* prevY = nullptr;
+              Node* tempY = head;
+              while (tempY && tempY -> data != y)
+              {
+                  prevY = tempY;
+                  tempY = tempY -> next;
+              }
+
+              if (tempX == nullptr || tempY == nullptr)
+                  return;
+
+              if (prevX != nullptr)
+                  prevX -> next = tempY;
+              else
+                  head = tempY;
+
+              if (prevY != nullptr)
+                  prevY -> next = tempX;
+              else
+                  head = tempX;
+
+              Node* temp = tempY -> next;
+              tempY -> next = tempX -> next;
+              tempX -> next = temp;
+  }
 
   std::vector<T> to_vector() {
     if (!head) return {};
