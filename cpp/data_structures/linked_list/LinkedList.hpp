@@ -93,17 +93,20 @@ class LinkedList {
         Node* temp = head;
         Node* previous= nullptr;
 
+        // if head value matches value, delete head node
         if (head.value == value)
         {
             head = value -> next;
             delete temp;
             return;
         }
+        // iterate until node value matches the value
         while (temp.value != value)
         {
             previous = temp;
             temp = temp -> next
         }
+        // set prev next to deleted node's next, then delete node
         previous -> next = temp -> next;
         delete temp;
   }
@@ -112,23 +115,25 @@ class LinkedList {
    * Remove the element at the index,
    */
   void remove_at(std::size_t index) {
-  if (head == nullptr)
+  // if linked list is empty
+        if (head == nullptr)
             return;
 
         Node* temp = head;
 
-        if (index == 0)
+        if (index == 0) // if first element, remove from head
         {
             head = temp -> next;
             delete temp;
             return;
         }
-        for (int i = 0; temp != nullptr && i < position - 1; i++)
+        for (int i = 0; temp != nullptr && i < position - 1; i++) // loop until reach index position
             temp = temp -> next;
 
-        if (temp == nullptr || temp -> next == nullptr)
+        if (temp == nullptr || temp -> next == nullptr) // index not in linked list
             return;
 
+        // remove element at index position
         Node* next = temp -> next -> next;
         delete temp -> next;
         temp -> next = next;
@@ -139,41 +144,43 @@ class LinkedList {
    */
   void swap(std::size_t x, std::size_t y)
   {
+        // no swap if they are the same value
         if (x == y)
-                  return;
+            return;
 
-              Node* prevX = nullptr;
-              Node* tempX = head;
-              while (tempX && tempX -> data != x)
-              {
-                  prevX = tempX;
-                  tempX = tempX -> next;
-              }
+        Node* prevX = nullptr;
+        Node* tempX = head;
+        while (tempX && tempX -> data != x) // find node with x value
+        {
+            prevX = tempX;
+            tempX = tempX -> next;
+        }
 
-              Node* prevY = nullptr;
-              Node* tempY = head;
-              while (tempY && tempY -> data != y)
-              {
-                  prevY = tempY;
-                  tempY = tempY -> next;
-              }
+        Node* prevY = nullptr;
+        Node* tempY = head;
+        while (tempY && tempY -> data != y) // find node with y value
+        {
+            prevY = tempY;
+            tempY = tempY -> next;
+        }
 
-              if (tempX == nullptr || tempY == nullptr)
-                  return;
+        if (tempX == nullptr || tempY == nullptr) // one or both values not found
+            return;
 
-              if (prevX != nullptr)
-                  prevX -> next = tempY;
-              else
-                  head = tempY;
+        if (prevX != nullptr)
+            prevX -> next = tempY; // apply x prev next node to y
+        else
+            head = tempY; // else apply to head if there is no prev of x
 
-              if (prevY != nullptr)
-                  prevY -> next = tempX;
-              else
-                  head = tempX;
+        if (prevY != nullptr) // apply y prev next node to x
+            prevY -> next = tempX;
+        else
+            head = tempX; // else apply to head if there is no prev of y
 
-              Node* temp = tempY -> next;
-              tempY -> next = tempX -> next;
-              tempX -> next = temp;
+        // switch x and y next nodes
+        Node* temp = tempY -> next;
+        tempY -> next = tempX -> next;
+        tempX -> next = temp;
   }
 
   std::vector<T> to_vector() {
